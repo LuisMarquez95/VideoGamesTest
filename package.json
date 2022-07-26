@@ -1,0 +1,29 @@
+{
+  "name": "videogamestest",
+  "version": "1.0.0",
+  "description": "Sistema CRUD basado en MEAN",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LuisMarquez95/VideoGamesTest.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LuisMarquez95/VideoGamesTest/issues"
+  },
+  "homepage": "https://github.com/LuisMarquez95/VideoGamesTest#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "mongoose": "^6.4.7",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  }
+}
