@@ -20,6 +20,14 @@ const GameSchema  = mongoose.Schema({
     imagen: {type: String, required: true},
     activo: {type: String, required: true}
 })
-module.exports  = mongoose.model('Console', ConsoleSchema);
+const Console = mongoose.model('Console', ConsoleSchema);
+const Develop = mongoose.model('Developer', DevSchema);
+const Game = mongoose.model('Games', GameSchema);
+module.exports = {
+    Console: Console,
+    Develop: Develop,
+    Game: Game
+}
+//module.exports  = mongoose.model('Console', ConsoleSchema);
 //module.exports = mongoose.model('Dev',  DevSchema);
 //module.exports = mongoose.model('Game', GameSchema);
