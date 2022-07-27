@@ -1,2 +1,7 @@
 # VideoGamesTest
-Sistema CRUD basado en MEAN
+Sistema practica de video juegos CRUD 
+Node
+Expres
+React
+Mongo DB
+
