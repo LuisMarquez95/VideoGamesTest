@@ -5,27 +5,44 @@ class DevE  extends Component{
         this.state = {
             title: '',
             description: '',
-            devs: []
+            devs: [],
+            _id: ''
         };
         this.handleChange = this.handleChange.bind(this);
         this.addGame = this.addGame.bind(this);
     }
     addGame(e){
-        fetch('api/task/postDevel', {
-            method: 'POST',
-            body: JSON.stringify(this.state),
-            headers: {
-                'Accept': 'application/json',
-                'Content-type': 'application/json'
-            }
-        })
-        .then(res => console.log(res))
-        .then(data => {
-            M.toast({html: 'Desarrollador Agregado'});
-            this.setState({title: "", description: ""});
-            this.fetchDevs();
-        })
-        .catch(err => console.error(err));
+        if(this.state._id){
+            fetch(`api/task/UpdateDevById/${this.state._id}`,{
+                method: 'PUT',
+                body: JSON.stringify(this.state._id),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-type': 'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(data  => {
+                M.toast({html: 'Registro Actualizado'})
+                this.fetchDevs();
+            })
+        }else{
+            fetch('api/task/postDevel', {
+                method: 'POST',
+                body: JSON.stringify(this.state),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-type': 'application/json'
+                }
+            })
+            .then(res => console.log(res))
+            .then(data => {
+                M.toast({html: 'Desarrollador Agregado'});
+                this.setState({title: "", description: ""});
+                this.fetchDevs();
+            })
+            .catch(err => console.error(err));
+        }
 
         e.preventDefault();
     }
@@ -37,6 +54,38 @@ class DevE  extends Component{
         .then(res => res.json())
         .then(data => this.setState({devs: data}));
     }
+
+    deleteDev(id){
+        /* Agregar swal de confirmación */
+        fetch(`/api/task/deleteDev/${id}`,{ 
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-type': 'application/json'
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            M.toast({html: 'Dev Eliminado'});
+            this.fetchDevs();
+        })
+    }
+
+    updateDev(id){
+        fetch(`/api/task/searchDevById/${id}`)
+        .then(res => res.json())
+        .then(data => {
+           this.setState({
+            title: data.title,
+            _id: data._id
+           })
+        })
+    }
+
+
+
+
+
     handleChange(e){
         const {name, value} = e.target;
         this.setState({
@@ -86,10 +135,18 @@ class DevE  extends Component{
                                         {
                                             this.state.devs.map(devs => {
                                                 return(
-                                                    <tr>
+                                                    <tr key={devs._id}>
                                                         <td>{devs.title}</td>
-                                                        <td>Eclair</td>
-                                                        <td>$0.87</td>
+                                                        <td>
+                                                            <button className="btn waves-effect waves-light" type="button" onClick={()=> this.deleteDev(devs._id)} name="action">
+                                                                <i className="material-icons right">clear</i>
+                                                            </button>
+                                                        </td>
+                                                        <td>
+                                                            <button className="btn waves-effect waves-light" type="button" onClick={() => this.updateDev(devs._id)} name="action">
+                                                                <i className="material-icons right">create</i>
+                                                            </button>
+                                                        </td>
                                                     </tr>
                                                 )
                                             })

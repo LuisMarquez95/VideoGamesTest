@@ -31,7 +31,7 @@ router.get('/findConsoleByName/:title', async (req, res) =>{
 router.post('/postDevel', async (req, res) =>{
     const {title} = req.body;
     const devel = new Develop({title});
-    await devel.save();
+    await devel.save(); 
     res.json({status: "200"});
 })
 
@@ -42,10 +42,27 @@ router.get('/findDev',  async(req, res) => {
 
 router.get('/findDevelByName/:title', async (req, res) =>{
     var query = req.query;
-    const devel = Develop.find(query, (err, doscs) => {
+    Develop.find(query, (err, doscs) => {
         res.json(doscs);
     })
     
+})
+
+router.delete('/deleteDev/:id', async (req, res) =>{
+    await Develop.findByIdAndRemove(req.params.id);
+    res.json({status: "200"})
+})
+
+router.put('/UpdateDevById/:id', async (req, res) => {
+    const {title} = req.body;
+    const newDev = {title};
+    await Develop.findByIdAndUpdate(req.params.id, newDev);
+    res.json({status:'200'});
+})
+
+router.get('/searchDevById/:id', async (req, res) =>{
+    const devel = Develop.findById(req.params.id);
+    res.json(devel);
 })
 
 /* METODO PARA GUARDAR VIDEO JUEGOS Y CONSULTARLOS */
@@ -103,8 +120,8 @@ router.delete('/deleteGame/:id', async (req, res) =>{
 })
 
 router.get('/searchGameById/:id', async (req, res) =>{
-    const Game = Game.findById(req.params.id);
-    res.json(Game);
+    const game = Game.findById(req.params.id);
+    res.json(game);
 })
 
 module.exports = router;
