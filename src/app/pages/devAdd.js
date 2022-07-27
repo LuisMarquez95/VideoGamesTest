@@ -1,10 +1,10 @@
 import React, {Component} from "react";
 class DevE  extends Component{
+    
     constructor(){
         super();
         this.state = {
             title: '',
-            description: '',
             devs: [],
             _id: ''
         };
@@ -12,38 +12,46 @@ class DevE  extends Component{
         this.addGame = this.addGame.bind(this);
     }
     addGame(e){
-        if(this.state._id){
-            fetch(`api/task/UpdateDevById/${this.state._id}`,{
-                method: 'PUT',
-                body: JSON.stringify(this.state._id),
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-type': 'application/json'
-                }
-            })
-            .then(res => res.json())
-            .then(data  => {
-                M.toast({html: 'Registro Actualizado'})
-                this.fetchDevs();
-            })
+        if(this.state.title == ""){
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Debes ingresar un nombre de desarrollador'
+              })
         }else{
-            fetch('api/task/postDevel', {
-                method: 'POST',
-                body: JSON.stringify(this.state),
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-type': 'application/json'
-                }
-            })
-            .then(res => console.log(res))
-            .then(data => {
-                M.toast({html: 'Desarrollador Agregado'});
-                this.setState({title: "", description: ""});
-                this.fetchDevs();
-            })
-            .catch(err => console.error(err));
+            if(this.state._id){
+                fetch(`api/task/UpdateDevById/${this.state._id}`,{
+                    method: 'PUT',
+                    body: JSON.stringify(this.state),
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-type': 'application/json'
+                    }
+                })
+                .then(res => res.json())
+                .then(data  => {
+                    M.toast({html: 'Registro Actualizado'})
+                    this.setState({title: "", _id: ""});
+                    this.fetchDevs();
+                })
+            }else{
+                fetch('api/task/postDevel', {
+                    method: 'POST',
+                    body: JSON.stringify(this.state),
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-type': 'application/json'
+                    }
+                })
+                .then(res => console.log(res))
+                .then(data => {
+                    M.toast({html: 'Desarrollador Agregado'});
+                    this.setState({title: "", _id: ""});
+                    this.fetchDevs();
+                })
+                .catch(err => console.error(err));
+            }
         }
-
         e.preventDefault();
     }
     componentDidMount(){
@@ -105,13 +113,13 @@ class DevE  extends Component{
                                 <form onSubmit={this.addGame}>
                                     <div className="row">
                                         <div className="input-field col s12">
-                                            <i className="material-icons prefix">airplay</i>
+                                            <i className="material-icons prefix">face</i>
                                             <input name="title" type="text" onChange={this.handleChange} className="autocomplete" value={this.state.title}/>
                                         </div>
                                         
                                         <div className="input-field col s12">
-                                            <button type="submit">
-                                                <a className="waves-effect waves-light btn-large"><i className="material-icons right">cloud</i>Salvar</a>
+                                            <button type="submit" className="btn waves-effect waves-light">
+                                                <i className="material-icons right">cloud</i>Guardar
                                             </button>
                                         </div>
                                     </div>
@@ -121,13 +129,17 @@ class DevE  extends Component{
                                 
                             </div>
 
-                            <div className="col s7">
+                            
+                        </div>
+                    
+                    </div>
+                    <div className="col s7">
                                 <table>
                                     <thead>
                                     <tr>
                                         <th>Nombre</th>
-                                        <th>Editar</th>
                                         <th>Eliminar</th>
+                                        <th>Editar</th>
                                     </tr>
                                     </thead>
 
@@ -156,9 +168,6 @@ class DevE  extends Component{
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
-                    
-                    </div>
                 </div>
             </div>
         )

@@ -61,8 +61,9 @@ router.put('/UpdateDevById/:id', async (req, res) => {
 })
 
 router.get('/searchDevById/:id', async (req, res) =>{
-    const devel = Develop.findById(req.params.id);
-    res.json(devel);
+    const task = await Develop.findById(req.params.id);
+    res.json(task);
+ 
 })
 
 /* METODO PARA GUARDAR VIDEO JUEGOS Y CONSULTARLOS */
