@@ -1,7 +1,15 @@
 const express = require('express');
 const task = require('../models/task');
 const router = express.Router();
-const Game = require('../models/task')
+const Game = require('../models/task');
+const Console = require('../models/task');
+
+router.post('/postConsole', async (req, res) =>{
+    const {title} = req.body;
+    const console = new Console({title});
+    await console.save();
+    res.json({status: "200"});
+})
 
 router.get('/',  async(req, res) => {
     const games = await Game.find();
