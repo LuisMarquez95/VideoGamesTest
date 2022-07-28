@@ -3,6 +3,8 @@ const router = express.Router();
 const {Console} = require('../models/task');
 const {Develop} = require('../models/task');
 const {Game} = require('../models/task');
+const cors = require('cors');
+const multer = require('multer');
 
 /* METODOS PARA GUARDAR CONSOLAS Y CONSULTARLAS */
 
@@ -25,6 +27,8 @@ router.get('/findConsoleByName/:title', async (req, res) =>{
     })
     
 })
+
+
 
 /* METODO PARA GUARDAR DESARROLLADORES Y CONSULTARLOS */
 
@@ -124,5 +128,37 @@ router.get('/searchGameById/:id', async (req, res) =>{
     const game = Game.findById(req.params.id);
     res.json(game);
 })
+
+/* UPLOAD IMAGE */
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, 'public/files/')
+    },
+    filename: (req, file, cb) => {
+      cb(null, file.originalname)
+    },
+  })
+  
+const upload = multer({ storage: storage })
+
+router.use(cors())
+  
+router.post('/Game/upload',(req, res, next) => {
+    if (req.files === null) {
+        return res.status(400).json({ msg: 'No file uploaded' });
+        }
+        console.log(req.body);
+      /*
+        const file = req.files.file;
+      
+        file.mv(`${__dirname}/client/public/uploads/${file.name}`, err => {
+          if (err) {
+            console.error(err);
+            return res.status(500).send(err);
+          }
+      
+          res.json({ fileName: file.name, filePath: `/uploads/${file.name}` });
+        });*/
+  })
 
 module.exports = router;

@@ -13,15 +13,17 @@ export default function BasicExample() {
   return (
     <Router>
       <div>
-        <nav>
-            <div className="nav-wrapper">
-            <a href="#" className="brand-logo">Video Game-Test Hova</a>
-            <ul id="nav-mobile" className="right hide-on-med-and-down">
-                <li> <Link to="/" >DashBoard</Link></li>
-                <li><Link to="/DevE">Agregar Desarrollador</Link></li>
-                <li><Link to="/AgregarConsola">Agregar Consola</Link></li>
-                <li><Link to="/AgregarGame">Video Juegos</Link></li>
-            </ul>
+        <nav className="navbar navbar-expand-lg bg-light">
+            <div className="container-fluid">
+                <a href="#" className="navbar-brand">Video Game-Test Hova</a>
+                <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul id="nav-mobile" className="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li className="nav-item"> <Link to="/" className="nav-link" >DashBoard</Link></li>
+                    <li className="nav-item"><Link to="/DevE" className="nav-link">Agregar Desarrollador</Link></li>
+                    <li className="nav-item"><Link to="/AgregarConsola" className="nav-link">Agregar Consola</Link></li>
+                    <li className="nav-item"><Link to="/AgregarGame" className="nav-link">Video Juegos</Link></li>
+                </ul>
+                </div>
             </div>
         </nav>
       

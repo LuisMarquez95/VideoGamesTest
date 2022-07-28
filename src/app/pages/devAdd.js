@@ -64,19 +64,33 @@ class DevE  extends Component{
     }
 
     deleteDev(id){
-        /* Agregar swal de confirmación */
-        fetch(`/api/task/deleteDev/${id}`,{ 
-            method: 'DELETE',
-            headers: {
-                'Accept': 'application/json',
-                'Content-type': 'application/json'
+
+        Swal.fire({
+            title: 'Quieres eliminar el registro?',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Eliminar',
+            denyButtonText: `No Eliminar`,
+          }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                fetch(`/api/task/deleteDev/${id}`,{ 
+                    method: 'DELETE',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-type': 'application/json'
+                    }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    M.toast({html: 'Dev Eliminado'});
+                    this.fetchDevs();
+                })
+            } else if (result.isDenied) {
+              Swal.fire('Usuario no eliminado', '', 'info')
             }
-        })
-        .then(res => res.json())
-        .then(data => {
-            M.toast({html: 'Dev Eliminado'});
-            this.fetchDevs();
-        })
+          })
+        
     }
 
     updateDev(id){
