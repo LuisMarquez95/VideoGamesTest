@@ -26,6 +26,15 @@ class AgregarGame extends Component{
         this.fetchDevs();
     }
     addGameNew(e){
+        console.log(this.state.selectedFile);
+        let formData = new FormData()
+        formData.append('file', this.state.selectedFile)
+        console.log(formData);
+        
+        fetch('api/task/Game/upload', {
+        method: 'POST',
+        body: formData,
+        }).then(res => res.json())
         
         console.log(JSON.stringify(this.state));
         /*fetch('api/task/saveGame', {
@@ -78,14 +87,7 @@ class AgregarGame extends Component{
         })
         console.log(e.target.files[0]);
         this.setState({filepreview:URL.createObjectURL(e.target.files[0]), selectedFile: e.target.files[0]}) 
-        console.log(this.state.selectedFile);
-        let formData = new FormData()
-        formData.append('file', JSON.stringify(this.state))
-        console.log(formData);
-        const response = fetch('api/task/Game/upload', {
-        method: 'POST',
-        body: formData,
-        }).then(res => res.json())
+        
         
     }
    
@@ -113,7 +115,7 @@ class AgregarGame extends Component{
                             </div>
                             <div className="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Año</label>
-                                <input type="number" className="form-control" name="anu" id="exampleInputEmail1" onChange={this.handleChange} aria-describedby="emailHelp" max={4} maxLength={4}/>
+                                <input type="number" className="form-control" name="anu" id="exampleInputEmail1" onChange={this.handleChange} aria-describedby="emailHelp"  maxLength={4}/>
                             </div>
                             <div className="mb-3">
                                 <input class="form-check-input" type="checkbox" value="" name="activo" onChange={this.handleChange} id="flexCheckDefault"/>

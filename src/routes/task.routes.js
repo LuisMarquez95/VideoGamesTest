@@ -147,7 +147,7 @@ router.post('/Game/upload',(req, res, next) => {
     if (req.files === null) {
         return res.status(400).json({ msg: 'No file uploaded' });
         }
-        console.log(req.body);
+        console.log("LA IMAGEN" + JSON.stringify(req.files));
       /*
         const file = req.files.file;
       
