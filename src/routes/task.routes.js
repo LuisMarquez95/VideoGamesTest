@@ -6,6 +6,7 @@ const {Game} = require('../models/task');
 const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
+const { file } = require('babel-types');
 
 /* METODOS PARA GUARDAR CONSOLAS Y CONSULTARLAS */
 
@@ -147,7 +148,7 @@ router.post('/Game/upload',upload.single('file'),(req, res) => {
     if (!req.file) {
         res.json({status:"5"});
     }else{
-        res.json({status:"200"});
+        res.json({status:"200", name: req.file.filename});
     }
     
 })
