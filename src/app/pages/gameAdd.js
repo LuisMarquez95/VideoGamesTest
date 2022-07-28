@@ -1,4 +1,6 @@
 import React, {Component} from "react";
+import axios from 'axios';
+const FormData = require('form-data');
 class AgregarGame extends Component{
     constructor(){
         super();
@@ -20,6 +22,7 @@ class AgregarGame extends Component{
         this.handleChange = this.handleChange.bind(this);
         this.addGameNew = this.addGameNew.bind(this);
     }
+  
     componentDidMount(){
         this.fetchGames();
         this.fetchConsolas();
@@ -27,16 +30,19 @@ class AgregarGame extends Component{
     }
     addGameNew(e){
         console.log(this.state.selectedFile);
-        let formData = new FormData()
-        formData.append('file', this.state.selectedFile)
-        console.log(formData);
-        
-        fetch('api/task/Game/upload', {
-        method: 'POST',
-        body: formData,
-        }).then(res => res.json())
-        
-        console.log(JSON.stringify(this.state));
+        console.log(this.state.selectedFile.name);
+        const formData = new FormData();
+        formData.append("file", this.state.selectedFile);
+        formData.append("fileName", this.state.selectedFile.name);
+        try {
+          const res = axios.post(
+            "api/task/Game/upload",
+            formData
+          );
+          console.log(res);
+        } catch (ex) {
+          console.log(ex);
+        }
         /*fetch('api/task/saveGame', {
             method: 'POST',
             body: JSON.stringify(this.state),
@@ -86,6 +92,7 @@ class AgregarGame extends Component{
             [name] : value 
         })
         console.log(e.target.files[0]);
+        
         this.setState({filepreview:URL.createObjectURL(e.target.files[0]), selectedFile: e.target.files[0]}) 
         
         
@@ -125,7 +132,7 @@ class AgregarGame extends Component{
                             </div>
                             <div class="mb-3">
                                 <label for="formFile" class="form-label">Default file input example</label>
-                                <input class="form-control" type="file" onChange={this.handleChange} id="formFile" name="imagen"/>
+                                <input class="form-control" type="file" onChange={this.handleChange} id="formFile" name="file"/>
                                 <img class="img-preview" src={this.state.filepreview}/>
                             </div>
                             <div className="mb-3">

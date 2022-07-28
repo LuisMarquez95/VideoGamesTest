@@ -5,6 +5,7 @@ const {Develop} = require('../models/task');
 const {Game} = require('../models/task');
 const cors = require('cors');
 const multer = require('multer');
+const path = require('path');
 
 /* METODOS PARA GUARDAR CONSOLAS Y CONSULTARLAS */
 
@@ -130,35 +131,25 @@ router.get('/searchGameById/:id', async (req, res) =>{
 })
 
 /* UPLOAD IMAGE */
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, 'public/files/')
+var storage = multer.diskStorage({
+    destination: (req, file, callBack) => {
+        callBack(null, './src/public/files/')     // './public/images/' directory name where save the file
     },
-    filename: (req, file, cb) => {
-      cb(null, file.originalname)
-    },
-  })
-  
-const upload = multer({ storage: storage })
-
-router.use(cors())
-  
-router.post('/Game/upload',(req, res, next) => {
-    if (req.files === null) {
-        return res.status(400).json({ msg: 'No file uploaded' });
-        }
-        console.log("LA IMAGEN" + JSON.stringify(req.files));
-      /*
-        const file = req.files.file;
-      
-        file.mv(`${__dirname}/client/public/uploads/${file.name}`, err => {
-          if (err) {
-            console.error(err);
-            return res.status(500).send(err);
-          }
-      
-          res.json({ fileName: file.name, filePath: `/uploads/${file.name}` });
-        });*/
-  })
+    filename: (req, file, callBack) => {
+        callBack(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+    }
+})
+ 
+var upload = multer({
+    storage: storage
+});
+router.post('/Game/upload',upload.single('file'),(req, res) => {
+    if (!req.file) {
+        res.json({status:"5"});
+    }else{
+        res.json({status:"200"});
+    }
+    
+})
 
 module.exports = router;
