@@ -215,7 +215,7 @@ class AgregarGame extends Component{
         .then(res => res.json())
         .then(data => {
            this.setState({games: data})
-           console.log(data)
+           console.log(data)                                      
         })
 
     }
