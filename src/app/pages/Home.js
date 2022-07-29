@@ -9,7 +9,7 @@ const Home = () => (
         </div>
         <div className='col-12'>
           <p className='text-align' style={{"font-family": "Montserrat", "text-align":"center", "font-zise":"18px", "font-weight": "bold"}}>
-            Sistema de practica Hova
+            Sistema de practica 
             sistema basado en la consulta de video juegos con las tecnologias MOngDB, React, Express y NodeJS
           </p>
         </div>

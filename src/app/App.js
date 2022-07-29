@@ -16,7 +16,7 @@ export default function BasicExample() {
       <div>
         <nav className="navbar navbar-expand-lg " style={{"background-color": "#22577E", color: "white" }}>
             <div className="container-fluid">
-                <a href="#" className="navbar-brand" style={{color:"white", "font-family": "Montserrat", "font-weight": "bold"}}>VG Hova</a>
+                <a href="#" className="navbar-brand" style={{color:"white", "font-family": "Montserrat", "font-weight": "bold"}}>VG</a>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                   <span className="navbar-toggler-icon"></span>
                 </button>

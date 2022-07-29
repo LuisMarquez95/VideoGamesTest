@@ -147,6 +147,55 @@ router.get('/findQueryGameInfo/:id', async(req, res) =>{
     })
 })
 
+router.get( '/findGmaesFilter/:id/:title/:anu', async(req, res) =>{
+    var query =[
+        {
+          '$match': {
+            
+            'desarrollador': mongoose.Types.ObjectId(req.params.id),
+            'title': req.params.title,
+            'anu': req.params.anu
+          }
+        }, {
+          '$lookup': {
+            'from': 'consoles', 
+            'localField': 'consolas', 
+            'foreignField': '_id', 
+            'as': 'consol'
+          }
+        }, {
+          '$unwind': {
+            'path': '$consol'
+          }
+        }, {
+          '$lookup': {
+            'from': 'developers', 
+            'localField': 'desarrollador', 
+            'foreignField': '_id', 
+            'as': 'devs'
+          }
+        }, {
+          '$unwind': {
+            'path': '$devs'
+          }
+        }, {
+          '$project': {
+            'title': 1, 
+            'description': 1, 
+            'anu': 1, 
+            'imagen': 1, 
+            'activo': 1, 
+            'consol.title': 1, 
+            'devs.title': 1
+          }
+        }
+      ];
+      console.log(query);
+    Game.aggregate(query, (err, doscs) => {
+        res.json(doscs);
+    })
+})
+
 router.delete('/deleteGame/:id', async (req, res) =>{
     await Game.findByIdAndRemove(req.params.id);
     res.json({status: "200"})

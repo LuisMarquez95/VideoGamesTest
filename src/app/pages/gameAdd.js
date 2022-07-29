@@ -98,6 +98,7 @@ class AgregarGame extends Component{
                     imagen:'',
                     activo:'', _id: ""});
                     this.fetchGames();
+                    Swal.fire('NUEVO JUEGO AGREGADO', '', 'success')
                 })
                 .catch(err => console.error(err));
     
@@ -133,6 +134,7 @@ class AgregarGame extends Component{
         this.setState({
             [name] : value 
         })
+        console.log(e.target.value);
         if(e.target.name == 'activo'){
              
             if(this.state.activo == ''){
@@ -205,6 +207,17 @@ class AgregarGame extends Component{
            })
            console.log(data)
         })
+
+    }
+    filtrarJuego(id, title, anu){
+        console.log(title)
+        fetch(`/api/task/findGmaesFilter/${id}/${title}/${anu}`)
+        .then(res => res.json())
+        .then(data => {
+           this.setState({games: data})
+           console.log(data)
+        })
+
     }
     render(){
         return(
@@ -220,7 +233,7 @@ class AgregarGame extends Component{
                             </button>
                         </div>
                         <div className="col-1">
-                            <button type="button" style={{background: "transparent", border: "none"}} data-bs-toggle="modal" data-bs-target="#exampleModalInfo">
+                            <button type="button" style={{background: "transparent", border: "none"}} data-bs-toggle="modal" data-bs-target="#exampleModalInfoUpdate">
                             <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_4cntnmut.json"  background="transparent"  speed="1"  style={{width: "100%", height: "100px"}}  loop  autoplay></lottie-player>
                             </button>
                         </div>
@@ -356,7 +369,7 @@ class AgregarGame extends Component{
                             </div>
                             <div className="mb-3">
                                         <label for="exampleInputEmail1" class="form-label">Nombre De Video Juego</label>
-                                            <input type="text" className="form-control" value={games.title} name="title" id="exampleInputEmail1" onChange={this.handleChange} aria-describedby="emailHelp"/>
+                                            <input type="text" className="form-control"  name="title" id="exampleInputEmail1" onChange={this.handleChange} aria-describedby="emailHelp"/>
                                         </div>
                                         <div className="mb-3">
                                             <select className="form-select" aria-label="Default select example" onChange={this.handleChange} name="desarrollador">
@@ -364,11 +377,12 @@ class AgregarGame extends Component{
                                                 {this.state.devs.map(devs =>(<option key={devs._id} value={devs._id}>{devs.title}</option>))}
                                             </select>
                                         </div>
+                                        <div className="mb-3">
                                         <label for="exampleInputEmail1" class="form-label">AÑO</label>
-                                            <input type="text" className="form-control" value={games.title} name="title" id="exampleInputEmail1" onChange={this.handleChange} aria-describedby="emailHelp"/>
+                                            <input type="text" className="form-control"  name="title" id="exampleInputEmail1" onChange={this.handleChange} aria-describedby="emailHelp"/>
                                         </div>
                                         
-                                        <button className="btn btn-primary">Filtrar</button>
+                                        <button className="btn btn-primary" onClick={()=> this.filtrarJuego(this.state.desarrollador, this.state.title, this.state.anu)}>Filtrar</button>
                                           
                         </div>
                     </div>
