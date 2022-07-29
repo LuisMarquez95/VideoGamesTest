@@ -1,4 +1,4 @@
-const { Int32 } = require('bson');
+const { Int32, ObjectID } = require('bson');
 const mongoose = require('mongoose');
 const {Schema}  = mongoose;
 /* Esquema de consolas */
@@ -14,9 +14,9 @@ const DevSchema  = mongoose.Schema({
 const GameSchema  = mongoose.Schema({
     title: {type : String, required: true},
     description: {type: String, required: true},
-    desarrollador: {type: String, required: true},
+    desarrollador: {type: ObjectID, required: true},
     anu: {type: String, required: true},
-    consolas: {type: String, required: true},
+    consolas: {type: ObjectID, required: true},
     imagen: {type: String, required: true},
     activo: {type: String, required: true}
 })

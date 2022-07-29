@@ -44,7 +44,7 @@ class AgregarConsola extends Component{
                 })
                 .then(res => console.log(res))
                 .then(data => {
-                    M.toast({html: 'Consola Agregada'});
+                    Swal.fire('Consola agregada', '', 'success')
                     this.setState({title: "", _id: ""});
                     this.fetchDevs();
                 })
@@ -118,60 +118,63 @@ class AgregarConsola extends Component{
     render(){
         return (
             <div>
-               
-                <div className="row">
-                    <div className="col s5">
-                        <div className="card">
-                            <div className="card-content">
-                                <form onSubmit={this.addGame}>
-                                    <div className="row">
-                                        <div className="input-field col s12">
-                                            <i className="material-icons prefix">gamepad</i>
-                                            <input name="title" type="text" onChange={this.handleChange} className="autocomplete" value={this.state.title}/>
+               <div className="container-fluid" style={{"margin-top": "5%"}}>
+                    <div className="row" style={{"text-align": "-webkit-center"}}>
+                        <div className='col-6'>
+                            <div className="card" style={{width: "18rem"}}>
+                                <label style={{"font-family": "Montserrat", "font-weight": "bold"}}>Registrar Consola</label>
+                                <lottie-player src="https://assets5.lottiefiles.com/private_files/lf30_gvdwzaoj.json"  background="transparent" className="card-img-top" speed="1"  style={{"width": "100%", "height": "200px"}}  loop  autoplay></lottie-player>
+                                <div className="card-body">
+                                    <form onSubmit={this.addGame}>
+                                        <div className="row">
+                                            <div className="col-12"> 
+                                                
+                                                <input name="title" type="text" onChange={this.handleChange} className="form-control" value={this.state.title}/>
+                                            </div>
+                                            
+                                            <div className="col-12">
+                                                <button type="submit" className="btn btn-success" style={{"margin-top": "5%"}}>
+                                                    Guardar
+                                                </button>
+                                            </div>
                                         </div>
-                                        
-                                        <div className="input-field col s12">
-                                            <button type="submit" className="btn waves-effect waves-light">
-                                                <i className="material-icons right">cloud</i>Guardar
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div>
-                                
-                            </div>
-
-                            
+                                    </form>
+                                </div>
+                            </div>  
                         </div>
-                    
-                    </div>
-                    <div className="col s7">
-                                <table>
-                                    <thead>
-                                    <tr>
-                                        <th>Nombre</th>
-                                        
-                                    </tr>
-                                    </thead>
+                        <div className="col-6">
+                            <div className="card" style={{width: "18rem"}}>
+                                <div className="card-body">
+                                    <label style={{"font-family": "Montserrat", "font-weight": "bold"}}>Consolas Registradas</label>
+                                    <table className="table table-sm table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>Nombre</th>
+                                            
+                                        </tr>
+                                        </thead>
 
-                                    <tbody>
-                                        {
-                                            this.state.devs.map(devs => {
-                                                return(
-                                                    <tr key={devs._id}>
-                                                        <td>{devs.title}</td>
-                                                        
-                                                    </tr>
-                                                )
-                                            })
-                                        }
-                                    
-                                    
-                                    </tbody>
-                                </table>
+                                        <tbody>
+                                            {
+                                                this.state.devs.map(devs => {
+                                                    return(
+                                                        <tr key={devs._id}>
+                                                            <td>{devs.title}</td>
+                                                            
+                                                        </tr>
+                                                    )
+                                                })
+                                            }
+                                        
+                                        
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
+                        </div>
+                    </div>
                 </div>
+                
             </div>
         )
     }

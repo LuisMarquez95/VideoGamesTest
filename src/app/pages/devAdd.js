@@ -30,7 +30,7 @@ class DevE  extends Component{
                 })
                 .then(res => res.json())
                 .then(data  => {
-                    M.toast({html: 'Registro Actualizado'})
+                   
                     this.setState({title: "", _id: ""});
                     this.fetchDevs();
                 })
@@ -45,7 +45,7 @@ class DevE  extends Component{
                 })
                 .then(res => console.log(res))
                 .then(data => {
-                    M.toast({html: 'Desarrollador Agregado'});
+                    Swal.fire('Desarrollador Agregado');
                     this.setState({title: "", _id: ""});
                     this.fetchDevs();
                 })
@@ -83,7 +83,7 @@ class DevE  extends Component{
                 })
                 .then(res => res.json())
                 .then(data => {
-                    M.toast({html: 'Dev Eliminado'});
+                    Swal.fire('Usuario eliminado', '', 'success')
                     this.fetchDevs();
                 })
             } else if (result.isDenied) {
@@ -119,69 +119,69 @@ class DevE  extends Component{
     render(){
         return (
             <div>
-               
-                <div className="row">
-                    <div className="col s5">
-                        <div className="card">
-                            <div className="card-content">
-                                <form onSubmit={this.addGame}>
-                                    <div className="row">
-                                        <div className="input-field col s12">
-                                            <i className="material-icons prefix">face</i>
-                                            <input name="title" type="text" onChange={this.handleChange} className="autocomplete" value={this.state.title}/>
+                
+                <div className="container-fluid" style={{"margin-top": "5%"}}>
+                    <div className="row" style={{"text-align": "-webkit-center"}}>
+                    <div className='col-6'>
+                        <div className="card" style={{width: "18rem"}}>
+                            <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_znokougu.json"  background="transparent" className="card-img-top" speed="1"  style={{"width": "100%", "height": "200px"}}  loop  autoplay></lottie-player>
+                            <div className="card-body">
+                                   <h3> Dar de alta un desarrollador</h3> 
+                                    <form onSubmit={this.addGame}>
+                                        <div className="row">
+                                            <div className=" col-12">
+                                                <label style={{"font-family": "Montserrat"}}> Nombre del desarrollador</label>
+                                                <input name="title" type="text" onChange={this.handleChange} className="form-control" value={this.state.title}/>
+                                            </div>
+                                            
+                                            <div className="col-12">
+                                                <button type="submit" className="btn btn-success" style={{"margin-top":"2%"}}>
+                                                    Guardar
+                                                </button>
+                                            </div>
                                         </div>
-                                        
-                                        <div className="input-field col s12">
-                                            <button type="submit" className="btn waves-effect waves-light">
-                                                <i className="material-icons right">cloud</i>Guardar
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
+                                    </form>
                             </div>
-                            <div>
-                                
-                            </div>
-
-                            
                         </div>
-                    
                     </div>
-                    <div className="col s7">
-                                <table>
-                                    <thead>
-                                    <tr>
-                                        <th>Nombre</th>
-                                        <th>Eliminar</th>
-                                        <th>Editar</th>
-                                    </tr>
-                                    </thead>
-
-                                    <tbody>
-                                        {
-                                            this.state.devs.map(devs => {
-                                                return(
-                                                    <tr key={devs._id}>
-                                                        <td>{devs.title}</td>
-                                                        <td>
-                                                            <button className="btn waves-effect waves-light" type="button" onClick={()=> this.deleteDev(devs._id)} name="action">
-                                                                <i className="material-icons right">clear</i>
-                                                            </button>
-                                                        </td>
-                                                        <td>
-                                                            <button className="btn waves-effect waves-light" type="button" onClick={() => this.updateDev(devs._id)} name="action">
-                                                                <i className="material-icons right">create</i>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                )
-                                            })
-                                        }
-                                    
-                                    
-                                    </tbody>
-                                </table>
+                    <div className="col-6">
+                            <div className="card" style={{width: "18rem"}}>
+                                <div className="card-body">
+                                    <label style={{"font-family": "Montserrat"}}> Desarrolladores Registrados</label>
+                                    <table className="table table-sm table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Nombre</th>
+                                                <th>Eliminar</th>
+                                                <th>Editar</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                this.state.devs.map(devs => {
+                                                    return(
+                                                        <tr key={devs._id}>
+                                                            <td>{devs.title}</td>
+                                                            <td>
+                                                                <button className="btn btn-warning" type="button" onClick={()=> this.deleteDev(devs._id)} name="action">
+                                                                    <i className="material-icons right">clear</i>
+                                                                </button>
+                                                            </td>
+                                                            <td>
+                                                                <button className="btn btn-info" type="button" onClick={() => this.updateDev(devs._id)} name="action">
+                                                                    <i className="material-icons right">create</i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    )
+                                                })
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         )

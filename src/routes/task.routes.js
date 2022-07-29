@@ -8,6 +8,8 @@ const multer = require('multer');
 const path = require('path');
 const { file } = require('babel-types');
 
+const { default: mongoose } = require('mongoose');
+
 /* METODOS PARA GUARDAR CONSOLAS Y CONSULTARLAS */
 
 router.post('/postConsole', async (req, res) =>{
@@ -46,12 +48,108 @@ router.get('/findDev',  async(req, res) => {
     res.json(devel);
 });
 
-router.get('/findDevelByName/:title', async (req, res) =>{
+router.get('/findDevelByName/:id', async (req, res) =>{
     var query = req.query;
     Develop.find(query, (err, doscs) => {
         res.json(doscs);
     })
     
+})
+
+router.get('/finQueryDevel', async (req, res) =>{
+    var query = [
+        {
+            '$lookup': {
+                'from': 'consoles', 
+                'localField': 'consolas', 
+                'foreignField': '_id', 
+                'as': 'consol'
+            }
+        }, {
+            '$unwind': {
+                'path': '$consol'
+            }
+        }, {
+            '$lookup': {
+                'from': 'developers', 
+                'localField': 'desarrollador', 
+                'foreignField': '_id', 
+                'as': 'devs'
+            }
+        }, {
+            '$unwind': {
+                'path': '$devs'
+            }
+        }, {
+            '$project': {
+                '_id':1,
+                'title': 1, 
+                'description': 1, 
+                'anu': 1, 
+                'imagen': 1, 
+                'activo': 1, 
+                'consol.title': 1, 
+                'devs.title': 1
+            }
+        }
+    ];
+    Game.aggregate(query, (err, doscs) => {
+        res.json(doscs);
+    })
+})
+
+router.get('/findQueryGameInfo/:id', async(req, res) =>{
+    
+    console.log(req.id)
+
+    var query =[
+        {
+          '$match': {
+            '_id':  mongoose.Types.ObjectId(req.params.id)
+          }
+        }, {
+          '$lookup': {
+            'from': 'consoles', 
+            'localField': 'consolas', 
+            'foreignField': '_id', 
+            'as': 'consol'
+          }
+        }, {
+          '$unwind': {
+            'path': '$consol'
+          }
+        }, {
+          '$lookup': {
+            'from': 'developers', 
+            'localField': 'desarrollador', 
+            'foreignField': '_id', 
+            'as': 'devs'
+          }
+        }, {
+          '$unwind': {
+            'path': '$devs'
+          }
+        }, {
+          '$project': {
+            'title': 1, 
+            'description': 1, 
+            'anu': 1, 
+            'imagen': 1, 
+            'activo': 1, 
+            'consol.title': 1, 
+            'devs.title': 1
+          }
+        }
+      ];
+      console.log(query);
+    Game.aggregate(query, (err, doscs) => {
+        res.json(doscs);
+    })
+})
+
+router.delete('/deleteGame/:id', async (req, res) =>{
+    await Game.findByIdAndRemove(req.params.id);
+    res.json({status: "200"})
 })
 
 router.delete('/deleteDev/:id', async (req, res) =>{
@@ -127,8 +225,11 @@ router.delete('/deleteGame/:id', async (req, res) =>{
 })
 
 router.get('/searchGameById/:id', async (req, res) =>{
-    const game = Game.findById(req.params.id);
-    res.json(game);
+    
+    var query = req.query;
+    Game.findById(req.params.id, (err, doscs) => {
+        res.json(doscs);
+    })
 })
 
 /* UPLOAD IMAGE */
